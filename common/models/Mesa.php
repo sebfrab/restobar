@@ -94,4 +94,19 @@ class Mesa extends \yii\db\ActiveRecord
         else
             return $model->idpedido;
     }
+    
+    public function getPersonasPedidoAbierto(){
+        $max = Pedido::find()
+                ->where([
+                    'mesa_idmesa'=>$this->idmesa,
+                    'estado_idestado'=>1,
+                        ])
+                ->max('idpedido');
+        $model = Pedido::findOne($max);
+        
+        if(is_null($model))
+            return null;
+        else
+            return $model->personas;
+    }
 }

@@ -26,30 +26,13 @@ class PedidoController extends Controller
     }
     
     public function actionAdmin($id){
-        //$pedido = Pedido::getPedidoAbriertoMesa($id);
         $pedido = Pedido::findOne($id);
-        
-        $model = new Detalle();
-        $model->pedido_idpedido = $pedido->idpedido;
-        
-        if ($model->load(Yii::$app->request->post())) {   
-            $producto = Producto::findOne($model->producto->idproducto);
-            $model->precio = $producto->precio;
-            $model->comanda = 1;
-            $model->estado_idestado = 1;
-           
-            $model->save();
-            $model = new Detalle(); //reset model
-        }
- 
-        $model->cantidad = 1;
-        
+
         $searchModel = new DetalleSearch();
         $dataProvider = $searchModel->searchPedido(Yii::$app->request->queryParams, $pedido->idpedido);
  
         
         return $this->render('admin', [
-            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'pedido' => $pedido
@@ -62,4 +45,36 @@ class PedidoController extends Controller
         $model->save();
         $this->redirect(array('mesa/index'));
     }
+    
+    public function actionAdicionar($id){
+        $pedido = Pedido::findOne($id);
+        
+        $model = new Detalle();
+        $model->pedido_idpedido = $pedido->idpedido;
+        
+        if ($model->load(Yii::$app->request->post())) {   
+            $producto = Producto::findOne($model->producto->idproducto);
+            $model->precio = $producto->precio;
+            $model->comanda = 0;
+            $model->estado_idestado = 1;
+           
+            $model->save();
+            return $this->redirect(['admin', 'id' => $pedido->idpedido]);
+        }
+        $model->cantidad = 1;
+        return $this->renderAjax('_formDetalle', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionRemove($id){
+        $model = Detalle::findOne($id);
+        
+        $pedido = $model->pedido;
+        
+        $model->delete();
+
+        return $this->redirect(['admin', 'id' => $pedido->idpedido]);
+    }
+    
 }

@@ -5,6 +5,8 @@ use yii\widgets\ActiveForm;
 use kartik\touchspin\TouchSpin;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
  
 /* @var $this yii\web\View */
 /* @var $model app\models\Countries */
@@ -15,16 +17,16 @@ use yii\web\JsExpression;
  
 $this->registerJs(
    '$("document").ready(function(){ 
-        $("#new_detalle").on("pjax:end", function() {
-            $.pjax.reload({container:"#detalles"});
+        $("#_form").on("pjax:end", function() {
+            $.pjax.reload({container:"#detalles"});  //Reload GridView
         });
     });'
 );
 ?>
  
-<div class="detalle-form">
+<div class="detalle-form" style='margin-bottom: 100px;'>
  
-<?php yii\widgets\Pjax::begin(['id' => 'new_detalle']) ?>
+<?php Pjax::begin(['id' => '_form']) ?>
 <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
  
     <?= 
@@ -42,7 +44,7 @@ $this->registerJs(
     ?>
     
     <?php 
-    $url = \yii\helpers\Url::to(['producto/list']);
+    $url = Url::to(['producto/list']);
     $productoDesc = empty($model->producto_idproducto) ? '' : Producto::findOne($model->producto_idproducto)->nombre;
     
 
@@ -69,5 +71,5 @@ $this->registerJs(
     </div>
  
 <?php ActiveForm::end(); ?>
-<?php yii\widgets\Pjax::end() ?>
+<?php Pjax::end() ?>
 </div>
