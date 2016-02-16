@@ -1,5 +1,4 @@
 <?php
-
 namespace common\models;
 
 use Yii;
@@ -12,7 +11,10 @@ use Yii;
  * @property integer $precio
  * @property integer $pedido_idpedido
  * @property integer $producto_idproducto
+ * @property integer $comanda
+ * @property integer $estado_idestado
  *
+ * @property Estado $estado
  * @property Pedido $pedido
  * @property Producto $producto
  */
@@ -32,8 +34,8 @@ class Detalle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cantidad', 'precio', 'pedido_idpedido', 'producto_idproducto'], 'integer'],
-            [['precio', 'pedido_idpedido', 'producto_idproducto'], 'required']
+            [['cantidad', 'precio', 'pedido_idpedido', 'producto_idproducto', 'comanda', 'estado_idestado'], 'integer'],
+            [['precio', 'pedido_idpedido', 'producto_idproducto', 'estado_idestado'], 'required']
         ];
     }
 
@@ -48,7 +50,17 @@ class Detalle extends \yii\db\ActiveRecord
             'precio' => 'Precio',
             'pedido_idpedido' => 'Pedido Idpedido',
             'producto_idproducto' => 'Producto Idproducto',
+            'comanda' => 'Comanda',
+            'estado_idestado' => 'Estado Idestado',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEstado()
+    {
+        return $this->hasOne(Estado::className(), ['idestado' => 'estado_idestado']);
     }
 
     /**

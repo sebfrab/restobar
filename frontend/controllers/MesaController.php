@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Pedido;
+use common\models\Ubicacion;
 
 /**
  * MesaController implements the CRUD actions for mesa model.
@@ -28,10 +29,19 @@ class MesaController extends Controller
     /*LISTA TODAS LAS MESAS DEL LOCAL*/
     public function actionIndex()
     {
-        $model = Mesa::find()->all();
+        $model = Ubicacion::find()->all();
+        $html = "";
+        $i=0;
+        foreach ($model as $ubicacion){
+            $html[$i]['nombre']=$ubicacion->nombre;
+            $html[$i]['html'] = $this->renderPartial('_listado',[
+                'model' => $ubicacion,
+            ]);
+            $i++;
+        }
         
         return $this->render('index',[
-            'model' => $model,
+            'contenidos'=>$html
         ]);
     }
     
@@ -51,4 +61,9 @@ class MesaController extends Controller
             ]);
         }
     }    
+    
+    public function actionMostrar(){
+        $html = $this->renderPartial('_listado');
+        return Json::encode($html);
+    }
 }
