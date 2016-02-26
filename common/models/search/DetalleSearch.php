@@ -38,7 +38,36 @@ class DetalleSearch extends Detalle
      *
      * @return ActiveDataProvider
      */
-    public function searchPedido($params, $idpedido)
+    public function searchPedidoRealizado($params, $idpedido)
+    {
+        $query = Detalle::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+        
+        $query->where(['<>', 'comanda', 0]);
+        
+        $query->andFilterWhere([
+            'iddetalle' => $this->iddetalle,
+            'cantidad' => $this->cantidad,
+            'precio' => $this->precio,
+            'pedido_idpedido' => $idpedido,
+            'producto_idproducto' => $this->producto_idproducto,
+        ]);
+        
+        return $dataProvider;
+    }
+    
+    public function searchPedidoPendiente($params, $idpedido)
     {
         $query = Detalle::find();
 
@@ -59,6 +88,7 @@ class DetalleSearch extends Detalle
             'cantidad' => $this->cantidad,
             'precio' => $this->precio,
             'pedido_idpedido' => $idpedido,
+            'comanda' => 0,
             'producto_idproducto' => $this->producto_idproducto,
         ]);
 

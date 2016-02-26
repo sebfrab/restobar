@@ -60,7 +60,25 @@ class MesaController extends Controller
                 'model' => $model,
             ]);
         }
-    }    
+    }   
+    
+    public function actionCerrarmesa($id){
+        $model = Pedido::findOne($id);
+        
+        if ($model->load(Yii::$app->request->post())) {  
+            $model->estado_idestado = 3;
+            if($model->save()){
+                return 'success';
+            } else {
+               return 'false';
+            } 
+        }else{
+            
+            return $this->renderAjax('cerrarmesa', [
+                'model' => $model,
+            ]);
+        }
+    }
     
     public function actionMostrar(){
         $html = $this->renderPartial('_listado');

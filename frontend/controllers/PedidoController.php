@@ -7,7 +7,6 @@ use common\models\Pedido;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use common\models\Detalle;
-use common\models\search\DetalleSearch;
 use common\models\Producto;
 
 /**
@@ -26,16 +25,22 @@ class PedidoController extends Controller
     }
     
     public function actionAdmin($id){
-        $pedido = Pedido::findOne($id);
+        $model = Pedido::findOne($id);
 
-        $searchModel = new DetalleSearch();
-        $dataProvider = $searchModel->searchPedido(Yii::$app->request->queryParams, $pedido->idpedido);
- 
+        $pendiente = null;
+        if(isset($model->detallesPendiente)){
+            $pendiente = $model->detallesPendiente;
+        }
+        
+        $realizado = null;
+        if(isset($model->detallesRealizado)){
+            $realizado = $model->detallesRealizado;
+        }
         
         return $this->render('admin', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'pedido' => $pedido
+            'pendientes' => $pendiente,
+            'realizadas' => $realizado,
+            'model' => $model
         ]);
     }
     
@@ -77,4 +82,10 @@ class PedidoController extends Controller
         return $this->redirect(['admin', 'id' => $pedido->idpedido]);
     }
     
+    public function actionImprimircomanda($id){
+        $model = Pedido::findOne($id);
+        $model->imprimirComanda();
+        return $this->redirect(['admin', 'id' => $model->idpedido]);
+    }
+        
 }

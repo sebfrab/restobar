@@ -51,7 +51,7 @@ use yii\helpers\Url;
     foreach ($model->mesas as $mesa){
         $class = ' ocupado ';
         $a_class = '';
-        $href= Url::to(['pedido/admin', 'id' => $mesa->idmesa]);
+        $href= '';
         $icono = 'glyphicon-asterisk';
         $title = '';
         
@@ -64,6 +64,7 @@ use yii\helpers\Url;
             $mensaje = 'disponible';
         }else{
             $mensaje = 'personas '.$mesa->getPersonasPedidoAbierto();
+            $href= Url::to(['pedido/admin', 'id' => $mesa->getPedidoAbierto()]);
         }
     ?>
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style='margin-top: 10px;' >
@@ -79,7 +80,7 @@ use yii\helpers\Url;
                         <br/>
                         <span class="glyphicon <?php echo $icono; ?>"></span>
                         <br/>
-                        <span style='font-size: 12px;'> <b><?php echo $mensaje; ?></b></span>
+                        <span class="hidden-xs" style='font-size: 12px;'> <b><?php echo $mensaje; ?></b></span>
                     </p>
                 </div>
             </a>

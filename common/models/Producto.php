@@ -69,10 +69,10 @@ class Producto extends \yii\db\ActiveRecord
     }
     
     public function urlImagen(){
-        if(file_exists(Yii::$app->homeUrl.'images/productos/'.$this->idproducto.'.jpg')){
+        if(file_exists('../../frontend/web/images/productos/'.$this->idproducto.'.jpg')){
             return Yii::$app->homeUrl.'images/productos/'.$this->idproducto.'.jpg';
         }else{
-            return Yii::$app->homeUrl.'images/productos/0.png';
+            return Yii::$app->homeUrl.'images/productos/0.jpg';
         }
     }
 }

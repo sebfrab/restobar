@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7bde4e3083aea4f5e931853160ac7d75",
+    "hash": "6478a56ac56dcf885ab5adf34daeb810",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -131,6 +131,27 @@
                 "mask",
                 "plugins"
             ]
+        },
+        {
+            "name": "bower-asset/noty",
+            "version": "v2.3.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/needim/noty.git",
+                "reference": "6fe2cf81c7b8ecdbdafaa875b82b78cf65e2f100"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/needim/noty/zipball/6fe2cf81c7b8ecdbdafaa875b82b78cf65e2f100",
+                "reference": "6fe2cf81c7b8ecdbdafaa875b82b78cf65e2f100",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "js/noty/packaged/jquery.noty.packaged.js",
+                "bower-asset-ignore": []
+            },
+            "description": "noty is a jQuery plugin that makes it easy to create alert - success - error - warning - information - confirmation messages as an alternative the standard alert dialog. Each notification is added to a queue. (Optional)"
         },
         {
             "name": "bower-asset/punycode",
@@ -436,6 +457,55 @@
             "time": "2016-01-12 07:59:30"
         },
         {
+            "name": "kartik-v/yii2-widget-growl",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-growl.git",
+                "reference": "c79abaa47e9103e93345cd1eca7bc75e17e9a92e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-growl/zipball/c79abaa47e9103e93345cd1eca7bc75e17e9a92e",
+                "reference": "c79abaa47e9103e93345cd1eca7bc75e17e9a92e",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\growl\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A widget to generate growl based notifications using bootstrap-growl plugin (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-growl",
+            "keywords": [
+                "alert",
+                "bootstrap",
+                "extension",
+                "growl",
+                "jquery",
+                "notification",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-05-03 08:23:04"
+        },
+        {
             "name": "kartik-v/yii2-widget-select2",
             "version": "dev-master",
             "source": {
@@ -445,7 +515,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/519241c7360a0470624f24d872741e1ea880de75",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69",
                 "reference": "519241c7360a0470624f24d872741e1ea880de75",
                 "shasum": ""
             },
@@ -532,6 +602,94 @@
                 "yii2"
             ],
             "time": "2016-01-10 17:10:39"
+        },
+        {
+            "name": "raoul2000/yii2-pnotify-widget",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raoul2000/yii2-pnotify-widget.git",
+                "reference": "8bfd5138e922a0a5846b9c999cf0b590a5127bed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raoul2000/yii2-pnotify-widget/zipball/8bfd5138e922a0a5846b9c999cf0b590a5127bed",
+                "reference": "8bfd5138e922a0a5846b9c999cf0b590a5127bed",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "raoul2000\\widget\\pnotify\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Raoul",
+                    "email": "raoul.boulard@gmail.com"
+                }
+            ],
+            "description": "Wrapper around the PNotify JQuery plugin",
+            "keywords": [
+                "extension",
+                "jquery",
+                "notification",
+                "plugin",
+                "yii2"
+            ],
+            "time": "2014-10-11 13:42:54"
+        },
+        {
+            "name": "shifrin/yii2-noty",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Shifrin/yii2-noty.git",
+                "reference": "a818379e79a7ea218b58cb4efc01cc2f45f40d4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Shifrin/yii2-noty/zipball/a818379e79a7ea218b58cb4efc01cc2f45f40d4f",
+                "reference": "a818379e79a7ea218b58cb4efc01cc2f45f40d4f",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/noty": "^2.3",
+                "yiisoft/yii2": ">=2.0.6"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "shifrin\\noty\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohammed Shifreen",
+                    "email": "mshifreen@gmail.com"
+                }
+            ],
+            "description": "Yii widget for Noty jQuery notification plugin",
+            "keywords": [
+                "alert",
+                "flash",
+                "message",
+                "notification",
+                "noty",
+                "yii2"
+            ],
+            "time": "2016-02-21 06:48:51"
         },
         {
             "name": "swiftmailer/swiftmailer",

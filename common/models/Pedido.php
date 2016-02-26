@@ -16,9 +16,12 @@ use Yii;
  * @property integer $estado_idestado
  *
  * @property Detalle[] $detalles
+ * @property Detalle[] $detallesRealizado
+ * @property Detalle[] $detallesPendiente
  * @property Estado $estado
  * @property Mesa $mesa
  * @property User $mesero0
+ * @property integer $totalPedido
  */
 class Pedido extends \yii\db\ActiveRecord
 {
@@ -66,6 +69,16 @@ class Pedido extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Detalle::className(), ['pedido_idpedido' => 'idpedido']);
     }
+    
+    public function getDetallesRealizado()
+    {
+        return $this->hasMany(Detalle::className(), ['pedido_idpedido' => 'idpedido'])->andOnCondition(['>','comanda',0]);
+    }
+    
+    public function getDetallesPendiente()
+    {
+        return $this->hasMany(Detalle::className(), ['pedido_idpedido' => 'idpedido'])->andOnCondition(['comanda' => 0]);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -89,5 +102,27 @@ class Pedido extends \yii\db\ActiveRecord
     public function getMesero0()
     {
         return $this->hasOne(User::className(), ['id' => 'mesero']);
+    }
+    
+    public function imprimirComanda(){
+        $max = Detalle::find()
+                ->select('comanda')
+                ->where([
+                    'pedido_idpedido'=>$this->idpedido,
+                        ])
+                ->max('comanda');
+        $comanda = $max + 1;
+        foreach($this->detallesPendiente as $detalle){
+            $detalle->comanda = $comanda;
+            $detalle->save();
+        }
+    }
+    
+    public function getTotalpedido(){
+        $total = 0;
+        foreach($this->detallesRealizado as $detalle){
+            $total += $detalle->getTotal();
+        }
+        return $total;
     }
 }

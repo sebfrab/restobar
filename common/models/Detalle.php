@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -13,6 +14,7 @@ use Yii;
  * @property integer $producto_idproducto
  * @property integer $comanda
  * @property integer $estado_idestado
+ * @property string $comentario
  *
  * @property Estado $estado
  * @property Pedido $pedido
@@ -35,7 +37,8 @@ class Detalle extends \yii\db\ActiveRecord
     {
         return [
             [['cantidad', 'precio', 'pedido_idpedido', 'producto_idproducto', 'comanda', 'estado_idestado'], 'integer'],
-            [['precio', 'pedido_idpedido', 'producto_idproducto', 'estado_idestado'], 'required']
+            [['precio', 'pedido_idpedido', 'producto_idproducto', 'estado_idestado'], 'required'],
+            [['comentario'], 'string']
         ];
     }
 
@@ -48,10 +51,11 @@ class Detalle extends \yii\db\ActiveRecord
             'iddetalle' => 'Iddetalle',
             'cantidad' => 'Cantidad',
             'precio' => 'Precio',
-            'pedido_idpedido' => 'Pedido Idpedido',
-            'producto_idproducto' => 'Producto Idproducto',
+            'pedido_idpedido' => 'Pedido',
+            'producto_idproducto' => 'Producto',
             'comanda' => 'Comanda',
-            'estado_idestado' => 'Estado Idestado',
+            'estado_idestado' => 'Estado ',
+            'comentario' => 'Comentario',
         ];
     }
 
