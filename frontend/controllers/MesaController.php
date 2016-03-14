@@ -66,14 +66,14 @@ class MesaController extends Controller
         $model = Pedido::findOne($id);
         
         if ($model->load(Yii::$app->request->post())) {  
-            $model->estado_idestado = 3;
+            $model->estado_idestado = 2;
             if($model->save()){
+                $model->imprimirComanda();
                 return 'success';
             } else {
-               return 'false';
+                return 'false';
             } 
         }else{
-            
             return $this->renderAjax('cerrarmesa', [
                 'model' => $model,
             ]);

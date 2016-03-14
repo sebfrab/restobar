@@ -15,7 +15,7 @@ foreach ($model as $subcategoria){
              $url = Url::to(['producto/adicionar', 'id' => $producto->idproducto]);
 ?>
             <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-3 thumb" style="padding-left: 3px; padding-right: 3px;">
-                <a title="<?= $producto->nombre . " | $" . number_format($producto->precio, 0, ",", "."); ?>" class="thumbnail showModalButton" href="<?php echo $url;  ?>">
+                <a title="<?= $producto->nombre . " | $" . number_format($producto->precioVenta(), 0, ",", "."); ?>" class="thumbnail showModalButton" href="<?php echo $url;  ?>">
                     <img class="img-responsive" src='<?php echo $producto->urlImagen(); ?>' alt="">
                 </a>
             </div>

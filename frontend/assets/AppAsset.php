@@ -21,11 +21,13 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/init.css',
         'css/toastr.css',
+        'css/pnotify.custom.min.css',
     ];
     public $js = [
         'js/toastr.js',
         'js/modal.js',
-        'js/init.js'
+        'js/init.js',
+        'js/pnotify.custom.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

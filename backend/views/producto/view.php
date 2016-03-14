@@ -35,5 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'subcategoria_idsubcategoria',
         ],
     ]) ?>
+    
+    
+    <?php
+        echo '<br/>';
+        echo $model->precioVenta();
+
+    ?>
 
 </div>

@@ -72,7 +72,7 @@ class Pedido extends \yii\db\ActiveRecord
     
     public function getDetallesRealizado()
     {
-        return $this->hasMany(Detalle::className(), ['pedido_idpedido' => 'idpedido'])->andOnCondition(['>','comanda',0]);
+        return $this->hasMany(Detalle::className(), ['pedido_idpedido' => 'idpedido'])->andOnCondition(['>','comanda',0])->andOnCondition(['estado_idestado'=>1]);
     }
     
     public function getDetallesPendiente()

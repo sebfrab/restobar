@@ -43,6 +43,7 @@ AppAsset::register($this);
                     ['label' => 'Productos', 'url' => ['/producto']],
                     ['label' => 'Mesas', 'url' => ['/mesa']],
                     ['label' => 'Ubicaciones', 'url' => ['/ubicacion']],
+                    ['label' => 'Promociones', 'url' => ['/promocion']],
                 ],
                 'visible' => !Yii::$app->user->isGuest
             ],

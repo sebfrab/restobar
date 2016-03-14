@@ -10,9 +10,9 @@ use kartik\tabs\TabsX;
         $items[] = [
             'label' => $contenido['nombre'], 
             'content' => $contenido['html'],
-            'headerOptions' => ['style'=>'font-weight:bold'],];
-    }
-        
+            'headerOptions' => ['style'=>'font-weight:bold'],
+        ];
+    }   
 ?>
 
 <?php
@@ -23,14 +23,13 @@ echo TabsX::widget([
 ]);
 ?>
 
-
 <?php
-                Modal::begin([
-                    'header' => '<span id="modalHeaderTitle"></span>',
-                    'id' => 'modal',
-                    'size' => 'modal-lg',
-                    'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
-                ]);
-                echo "<div id='modalContent'></div>";
-                Modal::end();
+    Modal::begin([
+        'header' => '<span id="modalHeaderTitle"></span>',
+        'id' => 'modal',
+        'size' => 'modal-lg',
+        'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
+    ]);
+    echo "<div id='modalContent'></div>";
+    Modal::end();
 ?>

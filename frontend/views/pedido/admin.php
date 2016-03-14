@@ -93,7 +93,7 @@ use yii\bootstrap\Modal;
           </tr>
         <?php
             foreach($realizadas as $detalle){ 
-       ?>
+        ?>
           <tr>
               <td>
                   <?php echo $detalle->producto->nombre; ?>
@@ -124,12 +124,12 @@ use yii\bootstrap\Modal;
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="pull-right hidden-xs">
         <?= Html::a('<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Cerrar', 
-                ['mesa/cerrarmesa?id='.$model->idpedido], ['class' => 'showModalButton btn btn-lg btn-danger', 'id'=>'button-adicionar', 'title' => 'Cerrar '.$model->mesa->nombre]) ?>
+                ['mesa/cerrarmesa?id='.$model->idpedido], ['class' => 'showModalButton btn btn-lg btn-danger', 'id'=>'button-cerra', 'title' => 'Cerrar '.$model->mesa->nombre]) ?>
     </div>
     
     <div class='pull-right visible-xs'>
         <?= Html::a('<span class="glyphicon glyphicon-off" aria-hidden="true"></span>', 
-                ['mesa/cerrarmesa?id='.$model->idpedido], ['class' => 'showModalButton btn btn-lg btn-danger', 'id'=>'button-adicionar', 'title' => 'Cerrar '.$model->mesa->nombre]) ?>
+                ['mesa/cerrarmesa?id='.$model->idpedido], ['class' => 'showModalButton btn btn-lg btn-danger', 'id'=>'button-cerra', 'title' => 'Cerrar '.$model->mesa->nombre]) ?>
     </div>
 </div>
 

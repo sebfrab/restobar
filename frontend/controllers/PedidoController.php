@@ -59,7 +59,7 @@ class PedidoController extends Controller
         
         if ($model->load(Yii::$app->request->post())) {   
             $producto = Producto::findOne($model->producto->idproducto);
-            $model->precio = $producto->precio;
+            $model->precio = $producto->precioVenta();
             $model->comanda = 0;
             $model->estado_idestado = 1;
            

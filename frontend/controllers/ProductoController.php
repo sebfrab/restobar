@@ -94,7 +94,7 @@ class ProductoController extends Controller
             $session = Yii::$app->session;
             $model->producto_idproducto = $producto->idproducto;
             $model->pedido_idpedido = $session->get('idpedido');
-            $model->precio = $producto->precio;
+            $model->precio = $producto->precioVenta();
             $model->comanda = 0;
             $model->estado_idestado = 1;
             

@@ -43,6 +43,18 @@ use yii\helpers\Url;
     .ocupado:hover span{
         color: #fff !important;
     }
+    
+    
+    .por_pagar p span{
+        color: #58ACFA;
+    }
+    .por_pagar:hover{
+        background-color: #58ACFA;
+        color: #fff !important;
+    }
+    .por_pagar:hover span{
+        color: #fff !important;
+    }
 </style>
 
 
@@ -55,13 +67,18 @@ use yii\helpers\Url;
         $icono = 'glyphicon-asterisk';
         $title = '';
         
-        if($mesa->getEstado() == 0 || $mesa->getEstado() == 2){
+        if($mesa->getEstado() == 0 || $mesa->getEstado() == 3){
             $a_class = 'showModalButton';
             $class = ' disponible ';
             $icono = 'glyphicon-ok';
             $title = "Abrir ".$mesa->nombre;
             $href= Url::to(['mesa/abrirmesa', 'id' => $mesa->idmesa]);
             $mensaje = 'disponible';
+        }elseif($mesa->getEstado() == 2){
+            $class = ' por_pagar ';
+            $href= '#';
+            $icono = 'glyphicon-asterisk';
+            $mensaje = 'Por pagar';
         }else{
             $mensaje = 'personas '.$mesa->getPersonasPedidoAbierto();
             $href= Url::to(['pedido/admin', 'id' => $mesa->getPedidoAbierto()]);
