@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\search\ProductoSearch;
 
 /**
  * PromocionController implements the CRUD actions for Promocion model.
@@ -48,8 +49,18 @@ class PromocionController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        
+        $session = Yii::$app->session;
+        $session->set('idpromocion', $id);
+        
+        $searchModel = new ProductoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
+            
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'promocion' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -117,5 +128,10 @@ class PromocionController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    public function actionAddproduct($id){
+        $model = $this->findModel($id);
+        
     }
 }

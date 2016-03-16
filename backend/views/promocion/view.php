@@ -1,47 +1,70 @@
 <?php
-
+use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Promocion */
-
-$this->title = $model->idpromocion;
-$this->params['breadcrumbs'][] = ['label' => 'Promocions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="promocion-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<?php
+$url = Url::to(['/promocion/addproduct', 'id' => $promocion->idpromocion]);
+$script = <<< JS
+    
+$('.eliminar').click(function(e) {
+    e.preventDefault();
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idpromocion], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idpromocion], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    alert($(this).val());
+        
+    return false;
+    var idproducto = $(this).val()
+    $.ajax({
+        url: $(this).attr('href'),
+        data: {idproducto: idproducto},
+        success: function(response) {
+            if(response == 'success'){
+                window.location.href = '$url';
+            }else{
+                alert("Error en cerrar mesa");
+            }
+      }
+    });
+});
+JS;
+$this->registerJs($script);
+?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idpromocion',
+<?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
             'nombre',
-            'porcentaje_descuento',
-            'hora_inicio',
-            'hora_fin',
-            'lunes',
-            'martes',
-            'miercoles',
-            'jueves',
-            'viernes',
-            'sabado',
-            'domingo',
-            'estado_idestado',
-        ],
-    ]) ?>
+            'precio',
+            'subcategoria.nombre',
 
-</div>
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model) {
+                        
+                        $session = Yii::$app->session;
+                        
+                        if( $model->getInPromocion($session->get('idpromocion')) == null){
+                            $url = Url::to(['promocion/addproduct','idproducto'=>$model->idproducto]);
+                            return Html::a('<span class="glyphicon glyphicon-ok"></span>',$url , [
+                                'title' => Yii::t('app', 'agregar a promoción'),
+                                'class'=>'btn btn-success btn-xs',   
+                                'data-method' => 'post'
+                            ]);
+                        }else{
+                            $url = Url::to(['promocion/removeproduct','idproducto'=>$model->idproducto]);
+                            return Html::a('<span class="glyphicon glyphicon-remove"></span>',$url , [
+                                'title' => Yii::t('app', 'quitar de promoción'),
+                                'class'=>'btn btn-danger btn-xs eliminar',   
+                                'data-method' => 'post'
+                            ]);
+                        }
+                    },
+                ],
+            ],
+        ],
+    ]); ?>

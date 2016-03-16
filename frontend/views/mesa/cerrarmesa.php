@@ -1,11 +1,12 @@
 <?php
     use yii\helpers\Html;
+    use yii\helpers\Url;
 ?>
 
 
 <?php
 $_csrf = Yii::$app->request->getCsrfToken();
-
+$url = Url::toRoute("mesa/index") ;
 $js = <<<JS
 $('#button-cerrar').click(function(e) {
         
@@ -17,7 +18,7 @@ $('#button-cerrar').click(function(e) {
       data: data,
       success: function(response) {
         if(response == 'success'){
-            window.location.href = '/mesa/index';
+            window.location.href = '$url';
         }else{
             alert("Error en cerrar mesa");
         }
@@ -38,7 +39,7 @@ $this->registerJs($js);
     ?>
         <div class="alert alert-danger" role="alert">
             <p>Existen <b>Adiciones pendientes</b>, 
-                favor de confirmar las adiciones antes de cerrar la mesa</p>
+                favor de confirmar las adiciones para poder cerrar la mesa</p>
         </div>
     <?php } ?>
     
@@ -90,11 +91,14 @@ $this->registerJs($js);
         </div>
         
     </div>
-    
+    <?php
+    if(count($model->detallesPendiente) == 0){
+    ?>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="pull-right">
             <?= Html::a('Cerrar mesa', 
               ['mesa/cerrarmesa?id='.$model->idpedido], ['class' => 'btn btn-lg btn-danger', 'id'=>'button-cerrar', 'title' => 'Cerrar '.$model->mesa->nombre]) ?>
         </div>
     </div>
+    <?php } ?>
 </div>

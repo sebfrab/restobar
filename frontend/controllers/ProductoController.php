@@ -94,7 +94,16 @@ class ProductoController extends Controller
             $session = Yii::$app->session;
             $model->producto_idproducto = $producto->idproducto;
             $model->pedido_idpedido = $session->get('idpedido');
+
+            //se utiliza el metodo precioVenta, ya que este puede variar según descuento 
+            //por promoción o precio especial
             $model->precio = $producto->precioVenta();
+            
+            //esto es para guardar la promoción correspondiente del precio
+            $promocion = $producto->getPromocion();
+            if(!is_null($promocion))
+                $model->promocion_idpromocion = $promocion->idpromocion;
+            
             $model->comanda = 0;
             $model->estado_idestado = 1;
             

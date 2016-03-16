@@ -13,12 +13,14 @@ use Yii;
  * @property integer $pedido_idpedido
  * @property integer $producto_idproducto
  * @property integer $comanda
- * @property integer $estado_idestado
  * @property string $comentario
+ * @property integer $estado_idestado
+ * @property integer $promocion_idpromocion
  *
  * @property Estado $estado
  * @property Pedido $pedido
  * @property Producto $producto
+  * @property Promocion $promocion
  */
 class Detalle extends \yii\db\ActiveRecord
 {
@@ -81,6 +83,14 @@ class Detalle extends \yii\db\ActiveRecord
     public function getProducto()
     {
         return $this->hasOne(Producto::className(), ['idproducto' => 'producto_idproducto']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPromocion()
+    {
+        return $this->hasOne(Promocion::className(), ['idpromocion' => 'promocion_idpromocion']);
     }
     
     public function getTotal(){

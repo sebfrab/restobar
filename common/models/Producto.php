@@ -87,8 +87,24 @@ class Producto extends \yii\db\ActiveRecord
     }
     
     public function precioVenta(){
-        $fechaactual = getdate();
+        $descuento = 0;
+        $promocion = $this->getPromocion();
+        if(!is_null($promocion)){
+            $descuento = $promocion->porcentaje_descuento;
+        }
         
+        if($descuento>0){
+            $descuento_porcentaje = $promocion->porcentaje_descuento/100;
+            $descuento_monto = (int)($this->precio * $descuento_porcentaje);
+            return ($this->precio-$descuento_monto);
+        }else if(!is_null($promocion) && $this->precio_descuento>0){
+            return $this->precio_descuento;
+        }else{
+            return $this->precio;
+        }
+    }
+    
+    public function getPromocion(){
         $year=date('Y');
         $month=date('m');
         $day=date('d');
@@ -112,20 +128,15 @@ class Producto extends \yii\db\ActiveRecord
             $promocion = $pro;
         }
         
-        $descuento = 0;
-        if(!is_null($promocion)){
-            $descuento = $promocion->porcentaje_descuento;
-        }
-        
-        /*AJUSTAR REGLA, LO DE PRECIO_DESCUENTO ESTÁ MALO*/
-        if($descuento>0){
-            $descuento_porcentaje = $promocion->porcentaje_descuento/100;
-            $descuento_monto = (int)($this->precio * $descuento_porcentaje);
-            return ($this->precio-$descuento_monto);
-        }else if($this->precio_descuento>0){
-            return $this->precio_descuento;
-        }else{
-            return $this->precio;
-        }
+        return $promocion;
+    }
+
+    public function getInPromocion($idpromocion){
+        $model = PromocionProducto::find()
+                    ->where([
+                        'producto_idproducto' => $this->idproducto,
+                        'promocion_idpromocion' => $idpromocion
+                    ])->limit(1)->all();
+        return $model;
     }
 }

@@ -11,8 +11,8 @@ use Yii;
  * @property integer $promocion_idpromocion
  * @property integer $producto_idproducto
  *
- * @property Producto $productoIdproducto
- * @property Promocion $promocionIdpromocion
+ * @property Producto $producto
+ * @property Promocion $promocion
  */
 class PromocionProducto extends \yii\db\ActiveRecord
 {
@@ -50,7 +50,7 @@ class PromocionProducto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductoIdproducto()
+    public function getProducto()
     {
         return $this->hasOne(Producto::className(), ['idproducto' => 'producto_idproducto']);
     }
@@ -58,7 +58,7 @@ class PromocionProducto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPromocionIdpromocion()
+    public function getPromocion()
     {
         return $this->hasOne(Promocion::className(), ['idpromocion' => 'promocion_idpromocion']);
     }

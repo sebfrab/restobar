@@ -6,7 +6,6 @@ use kartik\checkbox\CheckboxX;
 use kartik\time\TimePicker;
 use kartik\form\ActiveForm;
 
-
 ?>
 
 <div class="promocion-form">
