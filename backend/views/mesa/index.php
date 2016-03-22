@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\Ubicacion;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,12 +21,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idmesa',
             'nombre',
-            'ubicacion_idubicacion',
+            [
+                'attribute'=>'ubicacion_idubicacion',
+                'value' => 'ubicacion.nombre',
+                'filter' => Html::activeDropDownList($searchModel, 'ubicacion_idubicacion', 
+                        ArrayHelper::map(Ubicacion::find()->all(),'idubicacion','nombre'),
+                        ['class' => 'form-control', 'prompt' => 'Todas']),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

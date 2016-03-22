@@ -21,8 +21,9 @@ use Yii;
  * @property integer $domingo
  * @property integer $estado_idestado
  *
- * @property Estado $estadoIdestado
+ * @property Estado $estado
  * @property PromocionProducto[] $promocionProductos
+  * @property Detalle[] $detalles
  */
 class Promocion extends \yii\db\ActiveRecord
 {
@@ -66,14 +67,14 @@ class Promocion extends \yii\db\ActiveRecord
             'viernes' => 'Viernes',
             'sabado' => 'Sabado',
             'domingo' => 'Domingo',
-            'estado_idestado' => 'Estado Idestado',
+            'estado_idestado' => 'Estado',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEstadoIdestado()
+    public function getEstado()
     {
         return $this->hasOne(Estado::className(), ['idestado' => 'estado_idestado']);
     }
@@ -84,5 +85,39 @@ class Promocion extends \yii\db\ActiveRecord
     public function getPromocionProductos()
     {
         return $this->hasMany(PromocionProducto::className(), ['promocion_idpromocion' => 'idpromocion']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDetalles()
+    {
+        return $this->hasMany(Detalle::className(), ['promocion_idpromocion' => 'idpromocion']);
+    }
+    
+    
+    public function findProducto($id){
+        $model = PromocionProducto::find()
+                    ->where([
+                        'producto_idproducto' => $id,
+                        'promocion_idpromocion' => $this->idpromocion
+                    ])->one();
+
+        return $model;
+    }
+    
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if($this->promocionProductos !== array()){
+                return false;
+            }
+            if($this->detalles !== array()){
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -51,4 +51,10 @@ class Estado extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Pedido::className(), ['estado_idestado' => 'idestado']);
     }
+    
+    
+    public static function getEstadosTrueFalse(){
+        $model = Estado::find()->where('idestado=0')->orWhere('idestado = 1')->all();
+        return $model;
+    }
 }

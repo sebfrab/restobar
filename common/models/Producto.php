@@ -33,7 +33,7 @@ class Producto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'precio', 'subcategoria_idsubcategoria'], 'required'],
+            [['nombre', 'precio', 'subcategoria_idsubcategoria', 'precio_descuento'], 'required'],
             [['precio', 'subcategoria_idsubcategoria', 'precio_descuento'], 'integer'],
             [['descripcion'], 'string'],
             [['nombre'], 'string', 'max' => 45]
@@ -50,7 +50,7 @@ class Producto extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'precio' => 'Precio',
             'descripcion' => 'Descripcion',
-            'subcategoria_idsubcategoria' => 'Subcategoria Idsubcategoria',
+            'subcategoria_idsubcategoria' => 'Subcategoria',
         ];
     }
 
@@ -138,5 +138,20 @@ class Producto extends \yii\db\ActiveRecord
                         'promocion_idpromocion' => $idpromocion
                     ])->limit(1)->all();
         return $model;
+    }
+    
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if($this->detalles !== array()){
+                return false;
+            }
+            if($this->promocionProductos !== array()){
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

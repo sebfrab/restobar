@@ -23,6 +23,8 @@ use common\models\Subcategoria;
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'precio')->textInput() ?>
+    
+    <?= $form->field($model, 'precio_descuento')->textInput() ?>
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 

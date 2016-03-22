@@ -42,9 +42,9 @@ class Subcategoria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idsubcategoria' => 'Idsubcategoria',
+            'idsubcategoria' => '#',
             'nombre' => 'Nombre',
-            'categoria_idcategoria' => 'Categoria Idcategoria',
+            'categoria_idcategoria' => 'Categoria',
         ];
     }
 
@@ -62,5 +62,17 @@ class Subcategoria extends \yii\db\ActiveRecord
     public function getCategoria()
     {
         return $this->hasOne(Categoria::className(), ['idcategoria' => 'categoria_idcategoria']);
+    }
+    
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if($this->productos !== array()){
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

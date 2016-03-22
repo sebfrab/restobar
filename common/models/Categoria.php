@@ -39,7 +39,7 @@ class Categoria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idcategoria' => 'Idcategoria',
+            'idcategoria' => '#',
             'nombre' => 'Nombre',
         ];
     }
@@ -50,5 +50,17 @@ class Categoria extends \yii\db\ActiveRecord
     public function getSubcategorias()
     {
         return $this->hasMany(Subcategoria::className(), ['categoria_idcategoria' => 'idcategoria']);
+    }
+    
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if($this->subcategorias !== array()){
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

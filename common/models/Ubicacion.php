@@ -39,7 +39,7 @@ class Ubicacion extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idubicacion' => 'Idubicacion',
+            'idubicacion' => '#',
             'nombre' => 'Nombre',
         ];
     }
@@ -50,5 +50,17 @@ class Ubicacion extends \yii\db\ActiveRecord
     public function getMesas()
     {
         return $this->hasMany(Mesa::className(), ['ubicacion_idubicacion' => 'idubicacion']);
+    }
+    
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if($this->mesas !== array()){
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

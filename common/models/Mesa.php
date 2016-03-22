@@ -44,7 +44,7 @@ class Mesa extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idmesa' => 'Idmesa',
+            'idmesa' => '#',
             'nombre' => 'Nombre',
             'estado' => 'Estado',
             'ubicacion_idubicacion' => 'Ubicacion',
@@ -108,5 +108,17 @@ class Mesa extends \yii\db\ActiveRecord
             return null;
         else
             return $model->personas;
+    }
+    
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if($this->pedidos !== array()){
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Subcategoria;
+use common\models\search\SubcategoriaSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,11 +33,11 @@ class SubcategoriaController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Subcategoria::find(),
-        ]);
+        $searchModel = new SubcategoriaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -98,7 +99,11 @@ class SubcategoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if($this->findModel($id)->delete()){
+            Yii::$app->getSession()->setFlash('success', 'Subcategoria eliminada');
+        }else{
+            Yii::$app->getSession()->setFlash('error', 'Subcategoria no puedo ser eliminada');
+        }
 
         return $this->redirect(['index']);
     }

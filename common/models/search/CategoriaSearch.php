@@ -5,12 +5,12 @@ namespace common\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\PromocionProducto;
+use common\models\Categoria;
 
 /**
- * PromocionProductoSearch represents the model behind the search form about `common\models\PromocionProducto`.
+ * CategoriaSearch represents the model behind the search form about `common\models\Categoria`.
  */
-class PromocionProductoSearch extends PromocionProducto
+class CategoriaSearch extends Categoria
 {
     /**
      * @inheritdoc
@@ -18,7 +18,8 @@ class PromocionProductoSearch extends PromocionProducto
     public function rules()
     {
         return [
-            [['idpromocion_producto', 'promocion_idpromocion', 'producto_idproducto'], 'integer'],
+            [['idcategoria'], 'integer'],
+            [['nombre'], 'safe'],
         ];
     }
 
@@ -38,11 +39,10 @@ class PromocionProductoSearch extends PromocionProducto
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $idpromocion)
+    public function search($params)
     {
-        $query = PromocionProducto::find();
-        $query->joinWith(['producto']);
-        
+        $query = Categoria::find();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -56,12 +56,11 @@ class PromocionProductoSearch extends PromocionProducto
         }
 
         $query->andFilterWhere([
-            'idpromocion_producto' => $this->idpromocion_producto,
-            'promocion_idpromocion' => $idpromocion,
-            'producto_idproducto' => $this->producto_idproducto,
+            'idcategoria' => $this->idcategoria,
         ]);
+
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 
         return $dataProvider;
     }
-  
 }

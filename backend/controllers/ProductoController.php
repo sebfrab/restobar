@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Producto;
+use common\models\search\ProductoSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -33,11 +34,11 @@ class ProductoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Producto::find(),
-        ]);
+        $searchModel = new ProductoSearch();
+        $dataProvider = $searchModel->search2(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -102,9 +103,15 @@ class ProductoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        
+        if($this->findModel($id)->delete()){
+            Yii::$app->getSession()->setFlash('success', 'Producto eliminado');
+        }else{
+            Yii::$app->getSession()->setFlash('error', 'Producto no puedo ser eliminado');
+        }
+        
         return $this->redirect(['index']);
+
     }
 
     /**

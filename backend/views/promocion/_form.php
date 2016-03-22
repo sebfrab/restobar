@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use kartik\checkbox\CheckboxX;
 use kartik\time\TimePicker;
 use kartik\form\ActiveForm;
+use common\models\Estado;
+use yii\helpers\ArrayHelper;
 
 ?>
 
@@ -105,7 +107,21 @@ use kartik\form\ActiveForm;
         ])->label(false); ?>
     </div>
 
-
+    <?php
+        if(!$model->isNewRecord){
+    ?>
+         <div class="col-lg-2 col-md-3 col-sm-3">
+            <?= $form->field($model, 'estado_idestado')->widget(CheckboxX::classname(), [
+                    'autoLabel'=>true,
+                    'pluginOptions' => [
+                        'threeState' => false,
+                    ],
+                ])->label(false); ?>
+            </div>
+    <?php
+        }
+    ?>
+    
     <div class="form-group col-lg-12 col-md-12 col-sm-12">
         <?= Html::submitButton($model->isNewRecord ? 'Ingresar' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

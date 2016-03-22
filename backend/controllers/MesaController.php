@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Mesa;
+use common\models\search\MesaSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,11 +33,11 @@ class MesaController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Mesa::find(),
-        ]);
+        $searchModel = new MesaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -98,7 +99,11 @@ class MesaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if($this->findModel($id)->delete()){
+            Yii::$app->getSession()->setFlash('success', 'Mesa eliminada');
+        }else{
+            Yii::$app->getSession()->setFlash('error', 'Mesa no puedo ser eliminada');
+        }
 
         return $this->redirect(['index']);
     }

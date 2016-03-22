@@ -67,4 +67,33 @@ class ProductoSearch extends Producto
 
         return $dataProvider;
     }
+    
+    public function search2($params)
+    {
+        $query = Producto::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'idproducto' => $this->idproducto,
+            'precio' => $this->precio,
+            'subcategoria_idsubcategoria' => $this->subcategoria_idsubcategoria,
+            'precio_descuento' => $this->precio_descuento,
+        ]);
+
+        $query->andFilterWhere(['like', 'nombre', $this->nombre])
+            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
+
+        return $dataProvider;
+    }
 }

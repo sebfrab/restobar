@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\Subcategoria;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,19 +16,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Producto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Producto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idproducto',
             'nombre',
             'precio',
             'descripcion:ntext',
-            'subcategoria_idsubcategoria',
+            [
+                'attribute'=>'subcategoria_idsubcategoria',
+                'value' => 'subcategoria.nombre',
+                'filter' => Html::activeDropDownList($searchModel, 'subcategoria_idsubcategoria', 
+                        ArrayHelper::map(Subcategoria::find()->all(),'idsubcategoria','nombre'),
+                        ['class' => 'form-control', 'prompt' => 'Todas']),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

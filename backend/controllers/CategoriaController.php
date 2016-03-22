@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Categoria;
+use common\models\search\CategoriaSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,11 +33,11 @@ class CategoriaController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Categoria::find(),
-        ]);
+        $searchModel = new CategoriaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -98,8 +99,11 @@ class CategoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        if($this->findModel($id)->delete()){
+            Yii::$app->getSession()->setFlash('success', 'Categoria eliminada');
+        }else{
+            Yii::$app->getSession()->setFlash('error', 'Categoria no puedo ser eliminada');
+        }
         return $this->redirect(['index']);
     }
 

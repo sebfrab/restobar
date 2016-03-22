@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\Estado;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,10 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idpromocion',
             'nombre',
             'porcentaje_descuento',
             'hora_inicio',
@@ -34,7 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'viernes',
             // 'sabado',
             // 'domingo',
-            // 'estado_idestado',
+            [
+                'attribute'=>'estado_idestado',
+                'value' => 'estado.nombre',
+                'filter' => Html::activeDropDownList($searchModel, 'estado_idestado', 
+                        ArrayHelper::map(Estado::getEstadosTrueFalse(),'idestado','nombre'),
+                        ['class' => 'form-control', 'prompt' => 'Todas']),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
