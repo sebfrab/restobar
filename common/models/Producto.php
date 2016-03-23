@@ -13,10 +13,14 @@ use Yii;
  * @property integer $precio_descuento
  * @property string $descripcion
  * @property integer $subcategoria_idsubcategoria
+ * @property integer $tipo_producto_idtipo_producto
  *
  * @property Detalle[] $detalles
  * @property Subcategoria $subcategoria
-  * @property PromocionProducto[] $promocionProductos
+ * @property PromocionProducto[] $promocionProductos
+ * @property Stock $stock
+ * @property TipoProducto $tipoProducto
+ * @property ProductoInsumo[] $productoInsumo
  */
 class Producto extends \yii\db\ActiveRecord
 {
@@ -51,6 +55,7 @@ class Producto extends \yii\db\ActiveRecord
             'precio' => 'Precio',
             'descripcion' => 'Descripcion',
             'subcategoria_idsubcategoria' => 'Subcategoria',
+            'tipo_producto_idtipo_producto' => 'Tipo',
         ];
     }
 
@@ -77,6 +82,38 @@ class Producto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PromocionProducto::className(), ['producto_idproducto' => 'idproducto']);
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStock()
+    {
+        
+        if($this->tipo_producto_idtipo_producto == 1){        
+            return $this->hasOne(Stock::className(), ['producto_idproducto' => 'idproducto']);
+        }else{
+            return null;
+        }
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTipoProductoIdtipoProducto()
+    {
+        return $this->hasOne(TipoProducto::className(), ['idtipo_producto' => 'tipo_producto_idtipo_producto']);
+    }
+    
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductoInsumos()
+    {
+        return $this->hasMany(ProductoInsumo::className(), ['producto_idproducto' => 'idproducto']);
+    }
+    
+    
     
     public function urlImagen(){
         if(file_exists('../../frontend/web/images/productos/'.$this->idproducto.'.jpg')){

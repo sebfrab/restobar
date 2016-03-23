@@ -41,6 +41,7 @@ AppAsset::register($this);
                     ['label' => 'Categoria', 'url' => ['/categoria']],
                     ['label' => 'SubCageoria', 'url' => ['/subcategoria']],
                     ['label' => 'Productos', 'url' => ['/producto']],
+                    ['label' => 'Insumos', 'url' => ['/insumo']],
                     ['label' => 'Mesas', 'url' => ['/mesa']],
                     ['label' => 'Ubicaciones', 'url' => ['/ubicacion']],
                     ['label' => 'Promociones', 'url' => ['/promocion']],

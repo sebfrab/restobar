@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Producto;
+use common\models\Stock;
 use common\models\search\ProductoSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -65,6 +66,14 @@ class ProductoController extends Controller
         $model = new Producto();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            $stock = new Stock();
+            $stock->stock = 0;
+            $stock->unidad_medida_idunidad_medida = 0;
+            $stock->producto_idproducto = $model->idproducto;
+            $stock->insumo_idinsumo = null;
+            $stock->save();            
+            
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->file->saveAs('../../frontend/web/images/productos/'.$model->idproducto.'.'.$model->file->extension);
             

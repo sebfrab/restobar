@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Subcategoria;
+use common\models\TipoProducto;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Producto */
@@ -34,6 +35,12 @@ use common\models\Subcategoria;
             ArrayHelper::map(Subcategoria::find()->all(), 'idsubcategoria', 'nombre'),
             ['prompt' => 'Selecciona Subcategoria']
             ) ?>
+    
+    <?= $form->field($model, 'tipo_producto_idtipo_producto')->dropDownList(
+            ArrayHelper::map(TipoProducto::find()->all(), 'idtipo_producto', 'nombre'),
+            ['prompt' => 'Selecciona tipo de producto']
+            ) ?>
+    
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
