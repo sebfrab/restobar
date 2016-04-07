@@ -72,7 +72,7 @@ class Stock extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUnidad()
+    public function getUnidadMedida()
     {
         return $this->hasOne(UnidadMedida::className(), ['idunidad_medida' => 'unidad_medida_idunidad_medida']);
     }

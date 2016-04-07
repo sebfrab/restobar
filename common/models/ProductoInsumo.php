@@ -12,8 +12,8 @@ use Yii;
  * @property integer $producto_idproducto
  * @property double $cantidad
  *
- * @property Insumo $insumoIdinsumo
- * @property Producto $productoIdproducto
+ * @property Insumo $insumo
+ * @property Producto $producto
  */
 class ProductoInsumo extends \yii\db\ActiveRecord
 {
@@ -53,7 +53,7 @@ class ProductoInsumo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInsumoIdinsumo()
+    public function getInsumo()
     {
         return $this->hasOne(Insumo::className(), ['idinsumo' => 'insumo_idinsumo']);
     }
@@ -61,7 +61,7 @@ class ProductoInsumo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductoIdproducto()
+    public function getProducto()
     {
         return $this->hasOne(Producto::className(), ['idproducto' => 'producto_idproducto']);
     }

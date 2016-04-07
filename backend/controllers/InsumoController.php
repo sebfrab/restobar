@@ -93,8 +93,6 @@ class InsumoController extends Controller
         $model = $this->findModel($id);
         $stock = $model->stock;
 
-        
-        
         if($model->load(Yii::$app->request->post()) && $stock->load(Yii::$app->request->post()))
         {
             if($model->validate() && $stock->validate())
@@ -105,7 +103,7 @@ class InsumoController extends Controller
                 }
             }
         }
-        return $this->render('create', [
+        return $this->render('update', [
             'model' => $model,
             'stock' => $stock,
         ]);  

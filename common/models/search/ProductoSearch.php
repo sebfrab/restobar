@@ -69,7 +69,7 @@ class ProductoSearch extends Producto
     }
     
     public function search2($params)
-    {
+    {        
         $query = Producto::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -89,6 +89,7 @@ class ProductoSearch extends Producto
             'precio' => $this->precio,
             'subcategoria_idsubcategoria' => $this->subcategoria_idsubcategoria,
             'precio_descuento' => $this->precio_descuento,
+            'tipo_producto_idtipo_producto' => $this->tipo_producto_idtipo_producto,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])

@@ -4,19 +4,18 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Producto */
+/* @var $model common\modules\auth\AuthItem */
 
-$this->title = 'Ingresar Producto';
-$this->params['breadcrumbs'][] = ['label' => 'Productos', 'url' => ['index']];
+$this->title = 'Create Auth Item';
+$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="producto-create">
+<div class="auth-item-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
-        'stock' => $stock,
     ]) ?>
 
 </div>

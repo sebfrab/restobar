@@ -94,24 +94,33 @@ use yii\bootstrap\Modal;
         <?php
             foreach($realizadas as $detalle){ 
         ?>
-          <tr>
-              <td>
-                  <?php echo $detalle->producto->nombre; ?>
-              </td>
-              
-              <td style="width: 90px;">
-                   <?php echo number_format($detalle->precio, 0, ",", "."); ?>
-                   x 
-                  <?php echo $detalle->cantidad;?>
-              </td>
-              <td> <b>$ <?php echo number_format($detalle->getTotal(), 0, ",", ".");?></b></td>
-          </tr>
+            <tr>
+                <td>
+                    <?php echo $detalle->producto->nombre; ?>
+                </td>
+
+                <td style="width: 90px;">
+                     <?php echo number_format($detalle->precio, 0, ",", "."); ?>
+                     x 
+                    <?php echo $detalle->cantidad;?>
+                </td>
+                <td> <b>$ <?php echo number_format($detalle->getTotal(), 0, ",", ".");?></b></td>
+
+                <?php if(Yii::$app->user->can("app-frontend/pedido/anularproductocomanda")){ ?>
+                    <td rowspan="2">
+                        <?= Html::a('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>', 
+                                ['pedido/anularproductocomanda?id='.$detalle->iddetalle], 
+                                ['class' => 'btn btn-danger',
+                                    'title'=>'Anular']) ?>
+                    </td>
+                <?php } ?>
+            </tr>
           
-          <tr>
-              <td colspan="3" class="comentario">
-                  <?php echo $detalle->comentario; ?>
-              </td>
-          </tr>
+            <tr>
+                <td colspan="3" class="comentario">
+                    <?php echo $detalle->comentario; ?>
+                </td>
+            </tr>
           
         <?php        
             }

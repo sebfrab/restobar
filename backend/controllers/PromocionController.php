@@ -150,7 +150,7 @@ class PromocionController extends Controller
         }
     }
     
-     public function actionRemoveproduct($id){
+    public function actionRemoveproduct($id){
          $model = $this->findModel($id);
 
          $request = Yii::$app->request;

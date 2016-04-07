@@ -104,6 +104,12 @@ class Pedido extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'mesero']);
     }
     
+    /*FALTA AGREGAR COMANDOS DE IMPRESION*/
+    /*los producto obtienen un codigo correlativo correspondiente a su pedido
+     * el cual indica el numero de comanda en que se imprimio
+     * luego de realizar la impresión, se procede a realizar la rebaja de Stock
+     * esto dependendiendo del tipo de producto, con o sin ingrediente
+     * */
     public function imprimirComanda(){
         $max = Detalle::find()
                 ->select('comanda')
@@ -113,6 +119,7 @@ class Pedido extends \yii\db\ActiveRecord
                 ->max('comanda');
         $comanda = $max + 1;
         foreach($this->detallesPendiente as $detalle){
+            $detalle->producto->rebajarStockPedido($detalle->cantidad);
             $detalle->comanda = $comanda;
             $detalle->save();
         }

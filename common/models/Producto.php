@@ -10,9 +10,9 @@ use Yii;
  * @property integer $idproducto
  * @property string $nombre
  * @property integer $precio
- * @property integer $precio_descuento
  * @property string $descripcion
  * @property integer $subcategoria_idsubcategoria
+ * @property integer $precio_descuento
  * @property integer $tipo_producto_idtipo_producto
  *
  * @property Detalle[] $detalles
@@ -20,7 +20,7 @@ use Yii;
  * @property PromocionProducto[] $promocionProductos
  * @property Stock $stock
  * @property TipoProducto $tipoProducto
- * @property ProductoInsumo[] $productoInsumo
+ * @property ProductoInsumo[] $productoInsumos
  */
 class Producto extends \yii\db\ActiveRecord
 {
@@ -37,10 +37,10 @@ class Producto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'precio', 'subcategoria_idsubcategoria', 'precio_descuento'], 'required'],
-            [['precio', 'subcategoria_idsubcategoria', 'precio_descuento'], 'integer'],
+            [['nombre', 'precio', 'subcategoria_idsubcategoria', 'precio_descuento', 'tipo_producto_idtipo_producto'], 'required'],
+            [['precio', 'subcategoria_idsubcategoria', 'precio_descuento', 'tipo_producto_idtipo_producto'], 'integer'],
             [['descripcion'], 'string'],
-            [['nombre'], 'string', 'max' => 45]
+            [['nombre'], 'string', 'max' => 45],
         ];
     }
 
@@ -55,6 +55,7 @@ class Producto extends \yii\db\ActiveRecord
             'precio' => 'Precio',
             'descripcion' => 'Descripcion',
             'subcategoria_idsubcategoria' => 'Subcategoria',
+            'precio_descuento' => 'Precio Descuento',
             'tipo_producto_idtipo_producto' => 'Tipo',
         ];
     }
@@ -88,18 +89,13 @@ class Producto extends \yii\db\ActiveRecord
      */
     public function getStock()
     {
-        
-        if($this->tipo_producto_idtipo_producto == 1){        
-            return $this->hasOne(Stock::className(), ['producto_idproducto' => 'idproducto']);
-        }else{
-            return null;
-        }
+        return $this->hasOne(Stock::className(), ['producto_idproducto' => 'idproducto']);
     }
     
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTipoProductoIdtipoProducto()
+    public function getTipoProducto()
     {
         return $this->hasOne(TipoProducto::className(), ['idtipo_producto' => 'tipo_producto_idtipo_producto']);
     }
@@ -168,6 +164,7 @@ class Producto extends \yii\db\ActiveRecord
         return $promocion;
     }
 
+    //para saber si el producto está dentro de la promoción entregada
     public function getInPromocion($idpromocion){
         $model = PromocionProducto::find()
                     ->where([
@@ -177,14 +174,31 @@ class Producto extends \yii\db\ActiveRecord
         return $model;
     }
     
+    /*rebaja el stock del producto, dependiendo si este es con ingredientes o no*/   
+    public function rebajarStockPedido($cantidad){
+        if($this->tipo_producto_idtipo_producto == 0){
+            //los productos sin ingredientes se rebajan en unidades, por eso solo se rebaja la cantidad solicitada
+            $this->stock->stock -= $cantidad;
+            $this->stock->save();
+        }else{
+            foreach ($this->productoInsumos as $productoInsumo){
+                //cantidad de productos pedidos * la cantidad de insumo utilizado
+                $productoInsumo->insumo->stock->stock -= ($productoInsumo->cantidad * $cantidad);
+                $productoInsumo->insumo->stock->save();
+            }
+        }
+    }
+    
+    // valida que el producto no tenga ninguna relación, si la tiene la eliminación no se puede realizar
+    // de caso contrario, se elimina el registro en la tabla stock y luego se procede a eliminar el producto
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            if($this->detalles !== array()){
+            if($this->detalles !== array() || $this->promocionProductos !== array() || $this->productoInsumos !== array()){
                 return false;
-            }
-            if($this->promocionProductos !== array()){
-                return false;
+            }else{
+                $stock = $this->stock;
+                $stock->delete();
             }
             return true;
         } else {

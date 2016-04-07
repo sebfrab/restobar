@@ -10,12 +10,46 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Pedido;
 use common\models\Ubicacion;
+use yii\filters\AccessControl;
 
 /**
  * MesaController implements the CRUD actions for mesa model.
  */
 class MesaController extends Controller
 {
+    
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                               $module = Yii::$app->controller->module->id;
+                               $controller = Yii::$app->controller->id;
+                               $action = Yii::$app->controller->action->id;
+                               $route = "$module/$controller/$action";
+                               //$route = "$controller/$action";
+                               $post = Yii::$app->request->post();
+                               if (\Yii::$app->user->can($route)) {
+                                   return true;
+                               }
+
+                           },
+                    ],
+                ],
+            ]
+        ];        
+    }
     
     protected function findModel($id)
     {

@@ -8,12 +8,47 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use common\models\Detalle;
 use common\models\Producto;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * PedidoController implements the CRUD actions for Pedido model.
  */
 class PedidoController extends Controller
 {
+    
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                               $module = Yii::$app->controller->module->id;
+                               $controller = Yii::$app->controller->id;
+                               $action = Yii::$app->controller->action->id;
+                               $route = "$module/$controller/$action";
+                               //$route = "$controller/$action";
+                               $post = Yii::$app->request->post();
+                               if (\Yii::$app->user->can($route)) {
+                                   return true;
+                               }
+
+                           },
+                    ],
+                ],
+            ]
+        ];        
+    }
     
     protected function findModel($id)
     {
@@ -87,5 +122,15 @@ class PedidoController extends Controller
         $model->imprimirComanda();
         return $this->redirect(['admin', 'id' => $model->idpedido]);
     }
+    
+    public function actionAnularproductocomanda($id){
+        $model = Detalle::findOne($id);
         
+        $pedido = $model->pedido;
+        
+        $model->estado_idestado = 0;
+        $model->save();
+
+        return $this->redirect(['admin', 'id' => $pedido->idpedido]);
+    }
 }

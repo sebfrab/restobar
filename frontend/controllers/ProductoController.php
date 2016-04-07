@@ -11,12 +11,47 @@ use common\models\Producto;
 use common\models\Categoria;
 use common\models\Subcategoria;
 use \common\models\Pedido;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * PedidoController implements the CRUD actions for Pedido model.
  */
 class ProductoController extends Controller
 {
+    
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                               $module = Yii::$app->controller->module->id;
+                               $controller = Yii::$app->controller->id;
+                               $action = Yii::$app->controller->action->id;
+                               $route = "$module/$controller/$action";
+                               //$route = "$controller/$action";
+                               $post = Yii::$app->request->post();
+                               if (\Yii::$app->user->can($route)) {
+                                   return true;
+                               }
+
+                           },
+                    ],
+                ],
+            ]
+        ];        
+    }
     
     protected function findModel($id)
     {

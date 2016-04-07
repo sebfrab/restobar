@@ -63,4 +63,29 @@ class InsumoSearch extends Insumo
 
         return $dataProvider;
     }
+    
+    public function search_by_id($params, $idproducto)
+    {
+        $query = Insumo::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'idinsumo' => $this->idinsumo,
+        ]);
+
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+
+        return $dataProvider;
+    }
 }
